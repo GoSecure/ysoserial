@@ -1,7 +1,5 @@
 package ysoserial.payloads;
 
-import static com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl.DESERIALIZE_TRANSLET;
-
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -9,17 +7,13 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import org.hamcrest.CoreMatchers;
 import org.jboss.shrinkwrap.resolver.api.maven.Maven;
 import org.junit.Assert;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.contrib.java.lang.system.ProvideSecurityManager;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-import ysoserial.Deserializer;
 import ysoserial.Serializer;
 import ysoserial.Throwables;
 import ysoserial.payloads.TestHarnessTest.ExecMockPayload;
@@ -44,7 +38,8 @@ public class PayloadsTest {
 	@Parameters(name = "payloadClass: {0}")
 	public static Class<? extends ObjectPayload<?>>[] payloads() {
 		Set<Class<? extends ObjectPayload>> payloadClasses = ObjectPayload.Utils.getPayloadClasses();
-		payloadClasses.removeAll(Arrays.asList(ExecMockPayload.class, NoopMockPayload.class));
+		//SpringAop will only work if the pom.xml is change to used a old version of Spring
+		payloadClasses.removeAll(Arrays.asList(ExecMockPayload.class, NoopMockPayload.class, SpringAop.class));
 		return payloadClasses.toArray(new Class[0]);
 	}
 

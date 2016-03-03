@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<spring.version>4.1.4.RELEASE</spring.version> <!-- 3.0.5.RELEASE -->
 	</properties>
 
 	<build>
@@ -124,12 +125,25 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
-			<version>4.1.4.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
-			<version>4.1.4.RELEASE</version>
+			<version>${spring.version}</version>
 		</dependency>
+
+	  <!-- Spring AOP used for Spring AOP payload -->
+	  <dependency>
+		  <groupId>org.springframework</groupId>
+		  <artifactId>spring-aop</artifactId>
+		  <version>${spring.version}</version>
+	  </dependency>
+	  <dependency>
+		  <groupId>org.aspectj</groupId>
+		  <artifactId>aspectjweaver</artifactId>
+		  <version>1.8.8</version>
+	  </dependency>
+
 	</dependencies>
 </project>

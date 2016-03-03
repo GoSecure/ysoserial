@@ -29,12 +29,9 @@ public class PayloadRunner {
 				return Serializer.serialize(objBefore);
 		}});
 
-		try {
-			System.out.println("deserializing payload");
-			final Object objAfter = Deserializer.deserialize(serialized);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		System.out.println("deserializing payload");
+		final Object objAfter = deserialize(serialized);
+		objAfter.toString(); //Some payload needed some interaction(See Spring-AOP)
 
 	}
 

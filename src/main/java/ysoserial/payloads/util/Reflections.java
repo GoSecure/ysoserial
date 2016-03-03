@@ -5,14 +5,22 @@ import java.lang.reflect.Field;
 
 public class Reflections {
 
-	public static Field getField(final Class<?> clazz, final String fieldName) throws Exception {
-		Field field = clazz.getDeclaredField(fieldName);
-		if (field == null && clazz.getSuperclass() != null) {
-			field = getField(clazz.getSuperclass(), fieldName);
-		}
-		field.setAccessible(true);
-		return field;
-	}
+    public static Field getField(final Class<?> clazz, final String fieldName) throws Exception {
+        Class topClazz = clazz;
+        Field field = null;
+        while (topClazz != null) {
+            try {
+                field = topClazz.getDeclaredField(fieldName);
+            } catch (NoSuchFieldException e) {
+            }
+            topClazz = topClazz.getSuperclass();
+        }
+        if (field == null) {
+            throw new NoSuchFieldException(clazz.getSimpleName() + " does not have the field " + fieldName + "");
+        }
+        field.setAccessible(true);
+        return field;
+    }
 
 	public static void setFieldValue(final Object obj, final String fieldName, final Object value) throws Exception {
 		final Field field = getField(obj.getClass(), fieldName);
