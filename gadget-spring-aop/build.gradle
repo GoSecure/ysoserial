@@ -1,0 +1,9 @@
+group 'ysoserial'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    compile group: 'org.springframework', name: 'spring-core', version: '3.0.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-beans', version: '3.0.5.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aop', version: '3.0.5.RELEASE'
+    compile project(':ysoserial-core')
+}

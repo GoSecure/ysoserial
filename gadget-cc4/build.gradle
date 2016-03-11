@@ -1,0 +1,7 @@
+group 'ysoserial'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
+    compile project(':ysoserial-core')
+}

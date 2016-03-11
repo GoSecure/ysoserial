@@ -1,0 +1,22 @@
+group 'ysoserial'
+version '1.0-SNAPSHOT'
+
+subprojects { //Common configuration for subprojects
+    apply plugin: 'java'
+
+    sourceCompatibility = 1.7
+
+    repositories {
+        mavenCentral()
+    }
+}
+
+
+subprojects {
+
+    compileJava {
+        options.encoding = 'UTF-8'
+        //options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        options.compilerArgs << "-Xlint:none"
+    }
+}

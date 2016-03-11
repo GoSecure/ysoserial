@@ -1,0 +1,59 @@
+group 'ysoserial'
+version '1.0-SNAPSHOT'
+
+dependencies {
+    compile group: 'org.xeustechnologies', name: 'jcl-core', version: '2.7'
+
+    compile project(':ysoserial-core')
+}
+
+task copyLibs << {
+    //Regroup the jar need for each gadget in separated folders
+    rootProject.subprojects.each { subProject ->
+
+        if(subProject.name.startsWith("gadget-")) { //Export dependencies of gadget only
+            println("Copying libraries for the subproject "+subProject.name);
+            copy { //Dependencies minus the common ones
+                into "$buildDir/output/"+subProject.name
+                from subProject.configurations.compile - project(":ysoserial-cli").configurations.compile
+            }
+            copy { //Add the project itself (gadget code generation)
+                into "$buildDir/output/"+subProject.name
+                from subProject.jar.archivePath
+            }
+        }
+    }
+    //Common dependencies (unrelated to gadget code)
+    copy {
+        into "$buildDir/output/libs"
+        from configurations.compile
+    }
+    //JCL is merged in the final jar
+    copy {
+        from(zipTree("$buildDir/output/libs/jcl-core-2.7.jar"))
+        into("$buildDir/output/jcl-classes")
+    }
+}
+
+task createJar(dependsOn:[jar, copyLibs],type:Jar) {
+
+    manifest {
+        attributes(
+                "Implementation-Title": 'ysoserial',
+                "Implementation-Version": version,
+                "Main-Class": 'ysoserial.BootstrapMain'
+        )
+    }
+    classifier 'all'
+    destinationDir new File("$buildDir")
+
+    //Source code of the CLI
+    from sourceSets.main.output
+    //JCL library merged to the main jar
+    from "$buildDir/output/jcl-classes"
+
+    //Trigger the task createJar automatically when building ysoserial-cli
+    createJar.dependsOn assemble
+    build.dependsOn createJar
+
+}

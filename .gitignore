@@ -1,7 +1,13 @@
-/target
+target/
+build/
+.gradle/
+pwntest
+
+#Eclipse
 .classpath
 .project
 .settings/
-pwntest
+
+#IntelliJ
 .idea/
 *.iml
